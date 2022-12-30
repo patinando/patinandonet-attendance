@@ -6,7 +6,7 @@
 
 	let inputNames = '';
 	let inputNamesArray: string[] = [];
-	export let values: string[] = [];
+	export let checkedNames: string[] = [];
 
 	function handleInputNames() {
 		inputNamesArray = inputNames.split('\n');
@@ -26,7 +26,7 @@
 
 	<FormField>
 		{#each inputNamesArray as name}
-			<Checkbox {name} value={name} bind:group={values} />
+			<Checkbox {name} value={name} bind:group={checkedNames} />
 			<label for={name}>{name}</label>
 		{/each}
 	</FormField>
