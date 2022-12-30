@@ -3,10 +3,16 @@
 	import HelperText from '@smui/textfield/helper-text';
 	import Checkbox from '@smui/checkbox';
 	import FormField from '@smui/form-field';
+	import { page } from '$app/stores';
 
+	export let checkedNames: string[] = [];
 	let inputNames = '';
 	let inputNamesArray: string[] = [];
-	export let checkedNames: string[] = [];
+
+	if ($page.url.searchParams.has('names')) {
+		inputNames = $page.url.searchParams.get('names')?.split(',').join('\n') || '';
+		inputNamesArray = inputNames.split('\n');
+	}
 
 	function handleInputNames() {
 		inputNamesArray = inputNames.split('\n');
