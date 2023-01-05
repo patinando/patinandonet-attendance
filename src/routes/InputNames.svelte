@@ -25,15 +25,33 @@
 	}
 </script>
 
-<div>
-	<Textfield textarea bind:value={inputNames} on:change={handleInputNames}>
-		<HelperText slot="helper">César Luis Juan Pedro</HelperText>
-	</Textfield>
+<div class="container columns is-mobile">
+	<div class="column">
+		<Textfield textarea bind:value={inputNames} on:change={handleInputNames} />
+	</div>
 
-	<FormField>
-		{#each inputNamesArray as name}
-			<Checkbox {name} value={name} bind:group={checkedNames} />
-			<label for={name}>{name}</label>
-		{/each}
-	</FormField>
+	<div class="column">
+		<FormField>
+			<div class="items">
+				{#each inputNamesArray as name}
+					<div class="item">
+						<Checkbox {name} value={name} bind:group={checkedNames} />
+						<label for={name}>{name}</label>
+					</div>
+				{/each}
+			</div>
+		</FormField>
+	</div>
 </div>
+
+<style>
+	.column {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.item {
+		display: flex;
+		align-items: center;
+	}
+</style>

@@ -1,0 +1,10 @@
+name = "attendance"
+account_id = "694451cda4dfc0ab9b6b80ac86210f90"
+
+main = "./.cloudflare/worker.js"
+site.bucket = "./.cloudflare/public"
+
+build.command = "npm run build"
+
+compatibility_date = "2021-11-12"
+workers_dev = true

@@ -11,21 +11,26 @@
 	const historyRandom = writable<string[]>([]);
 
 	function handleRandomName() {
-
 		let loop = false;
 		let allUsed = false;
 
+		if (checkedNames.length === 0) {
+			dialogContent = 'No names have been added';
+			dialogTitle = 'Random Name';
+			showDialog = true;
+			return;
+		}
+
 		random = checkedNames[Math.floor(Math.random() * checkedNames.length)];
 		historyRandom.subscribe((value) => {
-
 			if (value.length === checkedNames.length) {
-				console.log("all names have been used");
+				console.log('all names have been used');
 				allUsed = true;
 			}
 
 			console.log(value);
 			if (value.includes(random)) {
-				console.log("random name already exists");
+				console.log('random name already exists');
 				loop = true;
 			}
 		});
@@ -49,6 +54,14 @@
 	}
 </script>
 
-<div>
+<div class="column">
 	<Button on:click={handleRandomName}>Random</Button>
 </div>
+
+<style>
+	.column {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+</style>

@@ -36,18 +36,28 @@
 		console.log(groups);
 
 		groups.forEach((group, index) => {
-			dialogContent += `<span>Group ${index + 1}</span>`;
+			dialogContent += `<span>Group ${index + 1}</span><ul>`;
 			group.forEach((name: string) => {
-				dialogContent += `<p>${name}</p>`;
+				dialogContent += `<ol>${name}</ol>`;
 			});
+			dialogContent += '</ul>';
 		});
 		dialogTitle = 'Groups';
 		showDialog = true;
 	}
 </script>
 
-<div>
+<div class="column">
 	<Textfield bind:value={numberOfGroups} label="Number" type="number" />
 
 	<Button on:click={handleGroups}>Groups</Button>
 </div>
+
+<style>
+	.column {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+</style>
