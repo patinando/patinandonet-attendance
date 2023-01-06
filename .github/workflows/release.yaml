@@ -36,16 +36,16 @@ jobs:
           }
           EOF
           npm install --save-dev semantic-release > /dev/null
-          sed -i "s#const {isCi, branch, prBranch, isPr} = context.envCi;#const {isCi, branch, prBranch, isPr} = {isCi: false, branch: '$${{ github.event.pull_request.head.ref }}', prBranch: undefined, isPr: undefined};#" node_modules/semantic-release/index.js
-          echo ::set-output name=TAG::$(npx semantic-release -b $${{ github.event.pull_request.head.ref }}  -p '@semantic-release/commit-analyzer' --dry-run --no-ci | grep -oiP 'the next release version is *\K.*')
+          sed -i "s#const {isCi, branch, prBranch, isPr} = context.envCi;#const {isCi, branch, prBranch, isPr} = {isCi: false, branch: '${{ github.event.pull_request.head.ref }}', prBranch: undefined, isPr: undefined};#" node_modules/semantic-release/index.js
+          echo ::set-output name=TAG::$(npx semantic-release -b ${{ github.event.pull_request.head.ref }}  -p '@semantic-release/commit-analyzer' --dry-run --no-ci | grep -oiP 'the next release version is *\K.*')
         env:
-          GITHUB_TOKEN: $${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create comment if analyze commits fails
         uses: peter-evans/create-or-update-comment@v1
         if: steps.next_release_version.outputs.TAG == ''
         with:
-          issue-number: $${{ github.event.pull_request.number }}
+          issue-number: ${{ github.event.pull_request.number }}
           body: |
             Commit message format does not follow the Message Conventions and it is necessary to generate the next tag.
 
@@ -70,4 +70,4 @@ jobs:
         id: release
         uses: cycjimmy/semantic-release-action@v2
         env:
-          GITHUB_TOKEN: $${{ secrets.KINGKONG_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.KINGKONG_GITHUB_TOKEN }}
