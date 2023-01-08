@@ -17,6 +17,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
       - name: Analyze commits
         id: next_release_version
         run: |
@@ -28,16 +33,13 @@ jobs:
             "version": "1.0.0",
             "description": "",
             "main": "index.js",
-            "scripts": {
-              "test": "echo \"Error: no test specified\" && exit 1"
-            },
             "author": "",
             "license": "ISC"
           }
           EOF
-          npm install --save-dev semantic-release > /dev/null
+          npm install --save-dev semantic-release@18 > /dev/null
           sed -i "s#const {isCi, branch, prBranch, isPr} = context.envCi;#const {isCi, branch, prBranch, isPr} = {isCi: false, branch: '${{ github.event.pull_request.head.ref }}', prBranch: undefined, isPr: undefined};#" node_modules/semantic-release/index.js
-          echo ::set-output name=TAG::$(npx semantic-release -b ${{ github.event.pull_request.head.ref }}  -p '@semantic-release/commit-analyzer' --dry-run --no-ci | grep -oiP 'the next release version is *\K.*')
+          echo "TAG=$(npx semantic-release -b ${{ github.event.pull_request.head.ref }}  -p '@semantic-release/commit-analyzer' --dry-run --no-ci | grep -oiP 'the next release version is *\K.*')" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -66,8 +68,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
       - name: Semantic Release
         id: release
-        uses: cycjimmy/semantic-release-action@v2
+        uses: cycjimmy/semantic-release-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.KINGKONG_GITHUB_TOKEN }}
